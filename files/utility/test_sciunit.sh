@@ -40,25 +40,21 @@ EXEC_EXIT_CODE=$?
 # ----------------------------
 # Check that at least one experiment was created
 # ----------------------------
-EXPERIMENTS=$(run_cmd sciunit list)  # Not quiet for checks
+EXPERIMENTS=$(sciunit list)  # Not quiet for checks
 LIST_EXIT_CODE=$?
-
-
 
 # ----------------------------
 # Test that SciUnit repeat works
 # ----------------------------
 # This will rerun the last experiment
 LAST_EXPERIMENT_ID=$(sciunit list | tail -n1 | awk '{print $1}')
-REPEAT_OUTPUT=$(run_cmd sciunit repeat "$LAST_EXPERIMENT_ID")
+REPEAT_OUTPUT=$(sciunit repeat "$LAST_EXPERIMENT_ID")
 REPEAT_EXIT_CODE=$?
-
 
 # ----------------------------
 # Determine pass/fail
 # ----------------------------
 PASS=true
-
 
 # Check sciunit exec did not fail
 if [ "$EXEC_EXIT_CODE" -ne 0 ]; then
@@ -79,7 +75,7 @@ if [[ "$REPEAT_EXIT_CODE" -ne 0 || "$REPEAT_OUTPUT" != *"$EXPECTED_OUTPUT"* ]]; 
 fi
 
 # ----------------------------
-# Output result
+# Output results
 # ----------------------------
 if [ "$QUIET" -eq 1 ]; then
     if [ "$PASS" = true ]; then
